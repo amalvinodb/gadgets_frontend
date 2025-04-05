@@ -1,4 +1,20 @@
-<div>navigation</div>
-<router-outlet />
-<div>footer</div>
-<h1 class="text-3xl font-bold underline">Hello world!</h1>
+<app-header></app-header>
+
+<mat-sidenav-container
+  class="example-container"
+  hasBackdrop="true"
+  class="w-full h-full"
+>
+  <!-- <mat-sidenav #sidenav [mode]="mode.value!" [position]="position.value!"> -->
+  <mat-sidenav #sidenav mode="over" position="start">
+    <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
+    <p>
+      <label>Test input for drawer<input /></label>
+    </p>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>
