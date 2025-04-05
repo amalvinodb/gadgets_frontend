@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -10,5 +11,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(), // required animations providers
     provideToastr(),
+    provideHttpClient(),
   ],
 };

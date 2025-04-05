@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header (buttonClicked)="onChildButtonClick()"></app-header>
 
 <mat-sidenav-container
   class="example-container"
@@ -7,14 +7,14 @@
 >
   <!-- <mat-sidenav #sidenav [mode]="mode.value!" [position]="position.value!"> -->
   <mat-sidenav #sidenav mode="over" position="start">
-    <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
+    <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
     <p>
       <label>Test input for drawer<input /></label>
-    </p>
+    </p> -->
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
+    <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p> -->
     <router-outlet />
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -41,6 +41,7 @@ export class ListAllComponent {
     'name',
     'weight',
     'symbol',
+    'actions',
   ];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -78,5 +79,11 @@ export class ListAllComponent {
 
   removeData() {
     console.log(this.selection);
+  }
+  deleteItem(id: string) {
+    console.log(id);
+  }
+  updateItem(id: string) {
+    console.log(id);
   }
 }
