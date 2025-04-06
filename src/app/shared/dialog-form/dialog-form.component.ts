@@ -1,4 +1,4 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, inject, model, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -21,6 +21,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { DialogService } from './dialog.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -46,15 +47,15 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
     ReactiveFormsModule,
   ],
+  providers: [DialogService],
   templateUrl: './dialog-form.component.html',
   styleUrl: './dialog-form.component.css',
 })
-export class DialogFormComponent {
+export class DialogFormComponent implements OnInit {
   myForm: FormGroup;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private dialogService: DialogService) {
     this.myForm = this.fb.group({
       item_name: ['', [Validators.required]],
       item_secret: ['', [Validators.required]],
@@ -69,7 +70,19 @@ export class DialogFormComponent {
       key: ['', [Validators.required]],
     });
   }
-
+  ngOnInit() {
+    if (this.data.type == 'Update') {
+      console.log('data', this.data.id);
+      this.dialogService.fetchGadget(this.data.id).subscribe((data: any) => {
+        console.log(data);
+        this.myForm.patchValue({
+          item_name: data.data.item_name,
+          item_price: data.data.item_price,
+          item_quantity: data.data.item_quantity,
+        });
+      });
+    }
+  }
   // emailFormControl = new FormControl('', [
   //   Validators.required,
   //   Validators.email,
@@ -92,6 +105,33 @@ export class DialogFormComponent {
       this.updateGadget();
     }
   }
-  addGadgets() {}
-  updateGadget() {}
+  addGadgets() {
+    if (this.myForm.valid) {
+      this.dialogService.addGadget(this.myForm.value).subscribe((response) => {
+        console.log(response);
+        this.dialogRef.close({ status: 'content added to table' });
+      });
+    } else {
+      Object.keys(this.myForm.controls).forEach((field) => {
+        const control = this.myForm.get(field);
+        if (control) {
+          control.markAsTouched({ onlySelf: true });
+        }
+      });
+    }
+  }
+  updateGadget() {
+    console.log(this.data.id, this.myForm.value);
+    const validFields = Object.fromEntries(
+      Object.entries(this.myForm.value).filter(
+        ([_, value]) => value !== undefined && value !== null && value !== ''
+      )
+    );
+    this.dialogService
+      .updateGadget(this.data.id, validFields)
+      .subscribe((response) => {
+        console.log(response);
+        this.dialogRef.close({ status: 'Content Updated' });
+      });
+  }
 }

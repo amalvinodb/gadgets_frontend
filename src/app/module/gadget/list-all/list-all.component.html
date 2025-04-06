@@ -42,7 +42,11 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.item_name }}</td>
+        <td mat-cell *matCellDef="let element">
+          <button (click)="navigateTo('/gadget/' + element.id)">
+            {{ element.item_name }}
+          </button>
+        </td>
       </ng-container>
 
       <!-- Price Column -->
@@ -71,7 +75,7 @@
           <button (click)="deleteItem(element.id)" class="text-red-700">
             <mat-icon>delete</mat-icon>
           </button>
-          <button (click)="updateItem(element.position)" class="text-blue-700">
+          <button (click)="updateItem(element.id)" class="text-blue-700">
             <mat-icon>edit</mat-icon>
           </button>
         </td>
@@ -85,8 +89,25 @@
       ></tr>
     </table>
   </div>
+  <div class="flex justify-center items-center gap-4 my-4">
+    <button
+      mat-fab
+      [disabled]="pageData?.currentPage == 1"
+      class="w-10 h-10 rounded-xl bg-stone-100 flex justify-center"
+      (click)="previousPage()"
+    >
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <p>{{ pageData?.currentPage }} / {{ pageData?.totalPages }}</p>
+    <div>
+      <button
+        mat-fab
+        [disabled]="pageData?.currentPage == pageData?.totalPages"
+        class="w-10 h-10 rounded-sm bg-stone-100 flex justify-center"
+        (click)="nextPage()"
+      >
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
-
-<!-- Copyright 2025 Google LLC. All Rights Reserved.
-      Use of this source code is governed by an MIT-style license that
-      can be found in the LICENSE file at https://angular.io/license -->

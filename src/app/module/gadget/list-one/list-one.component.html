@@ -1,1 +1,46 @@
-<p>list-one works!</p>
+<div class="w-full flex flex-col justify-center items-center my-16">
+  <div class="my-10">
+    <h3 class="text-3xl font-bold mb-4">Name : {{ gadgetData.item_name }}</h3>
+    <p>
+      Price :
+      <span class="text-green-300">
+        {{
+          gadgetData.item_price | currency : "INR" : "symbol" : "1.2-2"
+        }}</span
+      >
+    </p>
+    <p>Quantity : {{ gadgetData.item_quantity }}</p>
+  </div>
+  <div class="flex flex-col items-center">
+    <div class="my-4 max-w-[300px]">
+      <p>Secret : {{ secret() }}</p>
+      <p class="text-sm">
+        This is a Secret about the item if you want to view it please provide
+        the key
+      </p>
+    </div>
+
+    <div>
+      <section class="">
+        <div class="example-container flex flex-col max-w-[200px]">
+          <!-- Email Input Field -->
+          <label for="email">Key</label>
+          <mat-form-field>
+            <mat-label>Enter your key</mat-label>
+            <input
+              matInput
+              placeholder="secret_key"
+              [formControl]="key"
+              (blur)="updateErrorMessage()"
+              required
+            />
+            @if (key.invalid) {
+            <mat-error>{{ errorMessage() }}</mat-error>
+            }
+          </mat-form-field>
+          <button mat-flat-button (click)="decryptSecret()">De-crypt</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

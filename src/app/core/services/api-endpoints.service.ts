@@ -17,4 +17,12 @@ export class ApiEndpointsService {
     const url = this.baseUrl + '/' + endPoint;
     return this.httpClient.post(url, body);
   }
+  apiPut(endPoint: string, body: any) {
+    const url = this.baseUrl + '/' + endPoint;
+    return this.httpClient.put(url, body);
+  }
+  apiDelete(endPoint: string) {
+    const url = this.baseUrl + '/' + endPoint;
+    return this.httpClient.delete(url);
+  }
 }

@@ -6,7 +6,13 @@ import { ApiEndpointsService } from '../../../core/services/api-endpoints.servic
 })
 export class ListAllApiService {
   constructor(private apiService: ApiEndpointsService) {}
-  getAllGadgetDetails() {
-    return this.apiService.apiGet('gadget');
+  getAllGadgetDetails(page: any) {
+    return this.apiService.apiGet('gadget?page=' + page);
+  }
+  deleteGadget(id: any) {
+    return this.apiService.apiDelete('gadget/delete/' + id);
+  }
+  bulkDeleteGadget(itemList: any[]) {
+    return this.apiService.apiPost('gadget/delete', { itemList });
   }
 }

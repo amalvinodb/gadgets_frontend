@@ -28,6 +28,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 export interface GadgetData {
   id: number;
@@ -41,19 +42,6 @@ export interface GadgetData {
   createdAt: string;
   updatedAt: string;
 }
-
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-//   { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-//   { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-//   { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-//   { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-//   { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-//   { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-//   { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-//   { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-//   { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-// ];
 
 @Component({
   selector: 'app-list-all',
@@ -72,28 +60,32 @@ export class ListAllComponent implements OnInit {
   displayedColumns: string[] = ['select', 'id', 'name', 'price', 'actions'];
   dataSource = new MatTableDataSource<GadgetData>();
   selection = new SelectionModel<GadgetData>(true, []);
-  constructor(private listService: ListAllApiService) {}
-  readonly animal = signal('');
+  constructor(private listService: ListAllApiService, private router: Router) {}
+  currentPage = 1;
+  pageData: any;
   readonly name = model('');
   readonly dialog = inject(MatDialog);
-  openDialog(type: string, id?: string): void {
+  openDialog(type: string, id: string = '-1'): void {
     const dialogRef = this.dialog.open(DialogFormComponent, {
       maxWidth: '500px',
-      data: { type },
+      data: { type, id },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       if (result !== undefined) {
-        this.animal.set(result);
+        this.getDataForTable(this.currentPage);
       }
     });
   }
 
   ngOnInit(): void {
-    this.listService.getAllGadgetDetails().subscribe((response: any) => {
-      console.log(response.data);
-      this.dataSource = new MatTableDataSource<GadgetData>(response.data);
+    this.getDataForTable(this.currentPage);
+  }
+  getDataForTable(page: any) {
+    this.listService.getAllGadgetDetails(page).subscribe((response: any) => {
+      this.dataSource = new MatTableDataSource<GadgetData>(response.data.data);
+      this.pageData = response.page;
     });
   }
 
@@ -123,16 +115,37 @@ export class ListAllComponent implements OnInit {
 
   addData() {
     this.openDialog('Add');
-    console.log(this.selection);
+  }
+  updateData(id: string) {
+    this.openDialog('Update', id);
   }
 
   removeData() {
-    console.log(this.selection);
+    this.listService
+      .bulkDeleteGadget(this.selection.selected)
+      .subscribe((response) => {
+        this.getDataForTable(this.currentPage);
+      });
   }
   deleteItem(id: string) {
-    console.log(id);
+    // console.log(id);
+    this.listService.deleteGadget(id).subscribe((data) => {
+      this.getDataForTable(this.currentPage);
+    });
   }
   updateItem(id: string) {
     console.log(id);
+    this.updateData(id);
+  }
+  navigateTo(targetRoute: string): void {
+    this.router.navigate([targetRoute]);
+  }
+  nextPage() {
+    this.currentPage = this.currentPage + 1;
+    this.getDataForTable(this.currentPage);
+  }
+  previousPage() {
+    this.currentPage = this.currentPage - 1;
+    this.getDataForTable(this.currentPage);
   }
 }

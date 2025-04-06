@@ -7,10 +7,16 @@
 >
   <!-- <mat-sidenav #sidenav [mode]="mode.value!" [position]="position.value!"> -->
   <mat-sidenav #sidenav mode="over" position="start">
-    <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
-    <p>
-      <label>Test input for drawer<input /></label>
-    </p> -->
+    <div class="flex flex-col h-full justify-between p-8">
+      <div>Home</div>
+      <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
+      <p>
+        <label>Test input for drawer<input /></label>
+      </p> -->
+      <div>
+        <button>logout</button>
+      </div>
+    </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
