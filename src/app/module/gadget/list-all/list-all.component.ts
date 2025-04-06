@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   MatTable,
   MatTableModule,
@@ -7,6 +7,7 @@ import {
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ListAllApiService } from './list-all-api.service';
 
 export interface PeriodicElement {
   name: string;
@@ -31,10 +32,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 @Component({
   selector: 'app-list-all',
   imports: [MatButtonModule, MatTableModule, MatCheckboxModule],
+  providers: [ListAllApiService],
   templateUrl: './list-all.component.html',
   styleUrl: './list-all.component.css',
 })
-export class ListAllComponent {
+export class ListAllComponent implements OnInit {
   displayedColumns: string[] = [
     'select',
     'position',
@@ -45,15 +47,19 @@ export class ListAllComponent {
   ];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
+  constructor(private listService: ListAllApiService) {}
 
-  /** Whether the number of selected elements matches the total number of rows. */
+  ngOnInit(): void {
+    const data = this.listService.getAllGadgetDetails();
+    console.log(data);
+  }
+
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
     if (this.isAllSelected()) {
       this.selection.clear();
@@ -63,7 +69,6 @@ export class ListAllComponent {
     this.selection.select(...this.dataSource.data);
   }
 
-  /** The label for the checkbox on the passed row */
   checkboxLabel(row?: PeriodicElement): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
