@@ -1,1 +1,36 @@
-<p>login works!</p>
+<section class="w-full h-screen flex justify-center items-center">
+  <div class="example-container flex flex-col max-w-[400px]">
+    <!-- Email Input Field -->
+    <label for="email">email</label>
+    <mat-form-field>
+      <mat-label>Enter your email</mat-label>
+      <input
+        matInput
+        placeholder="pat@example.com"
+        [formControl]="email"
+        (blur)="updateErrorMessage()"
+        required
+      />
+      @if (email.invalid) {
+      <mat-error>{{ errorMessage() }}</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Password Input Field -->
+    <label for="password">password</label>
+    <mat-form-field>
+      <mat-label>Enter your Password</mat-label>
+      <input
+        matInput
+        placeholder="password"
+        [formControl]="password"
+        (blur)="updateErrorMessage()"
+        required
+      />
+      @if (password.invalid) {
+      <mat-error>{{ passwordErrorMessage() }}</mat-error>
+      }
+    </mat-form-field>
+    <button mat-flat-button (click)="doLogin()">Basic</button>
+  </div>
+</section>

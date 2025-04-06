@@ -1,1 +1,129 @@
-<p>dialog-form works!</p>
+<div class="w-full">
+  <h2 mat-dialog-title>{{ data.type }} Gadgets</h2>
+  <mat-dialog-content>
+    <p></p>
+    <form class="example-form" [formGroup]="myForm">
+      <div class="flex md:flex-row flex-col gap-4">
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Item Name</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="item_name"
+              [errorStateMatcher]="matcher"
+              placeholder="Item Name"
+            />
+            @if (myForm.get('item_name')?.invalid &&
+            myForm.get('item_name')?.touched) {
+            @if(myForm.get('item_name')?.hasError('required')){
+
+            <mat-error>Field should not be empty</mat-error>
+            } }
+            <!-- @if (emailFormControl.hasError('required')) {
+      <mat-error>Email is <strong>required</strong></mat-error>
+      } -->
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Item Secret</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="item_secret"
+              [errorStateMatcher]="matcher"
+              placeholder="Item Secret"
+            />
+            @if (myForm.get('item_secret')?.invalid &&
+            myForm.get('item_secret')?.touched) {
+            @if(myForm.get('item_secret')?.hasError('required')){
+
+            <mat-error>field should no be empty</mat-error>
+            } }
+            <!-- @if (emailFormControl.hasError('required')) {
+              <mat-error>Email is <strong>required</strong></mat-error>
+              } -->
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="my-4">
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Key</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="key"
+              [errorStateMatcher]="matcher"
+              placeholder="Key"
+            />
+            @if (myForm.get('key')?.invalid && myForm.get('key')?.touched) {
+            @if(myForm.get('key')?.hasError('required')){
+
+            <mat-error>field should no be empty</mat-error>
+            } }
+            <!-- @if (emailFormControl.hasError('required')) {
+                  <mat-error>Email is <strong>required</strong></mat-error>
+                  } -->
+          </mat-form-field>
+        </div>
+        <div class="md:w-[400px] w-[200px]">
+          <p>
+            key will encrypt the data in the secrets field and you will need to
+            reenter this key when you try to access this sceret again. if you
+            lose the key the secret cannot be accessed
+          </p>
+        </div>
+      </div>
+      <div class="flex md:flex-row flex-col gap-4">
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Item Price</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="item_price"
+              [errorStateMatcher]="matcher"
+              placeholder="Item Price"
+            />
+            @if (myForm.get('item_price')?.invalid &&
+            myForm.get('item_price')?.touched) {
+            @if(myForm.get('item_price')?.hasError('required')){
+
+            <mat-error>Field should not be empty</mat-error>
+            } }
+            <!-- @if (emailFormControl.hasError('required')) {
+      <mat-error>Email is <strong>required</strong></mat-error>
+      } -->
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Item Quantity</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="item_quantity"
+              [errorStateMatcher]="matcher"
+              placeholder="Item Quantity"
+            />
+            @if (myForm.get('item_quantity')?.invalid &&
+            myForm.get('item_quantity')?.touched) {
+            @if(myForm.get('item_quantity')?.hasError('required')){
+
+            <mat-error>field should no be empty</mat-error>
+            } }
+            <!-- @if (emailFormControl.hasError('required')) {
+              <mat-error>Email is <strong>required</strong></mat-error>
+              } -->
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="animal()" cdkFocusInitial>Ok</button>
+  </mat-dialog-actions>
+</div>

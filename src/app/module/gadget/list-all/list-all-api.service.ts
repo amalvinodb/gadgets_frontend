@@ -7,9 +7,6 @@ import { ApiEndpointsService } from '../../../core/services/api-endpoints.servic
 export class ListAllApiService {
   constructor(private apiService: ApiEndpointsService) {}
   getAllGadgetDetails() {
-    this.apiService.apiGet('gadget').subscribe((data) => {
-      console.log(data);
-      return data;
-    });
+    return this.apiService.apiGet('gadget');
   }
 }
