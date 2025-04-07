@@ -29,6 +29,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 export interface GadgetData {
   id: number;
@@ -70,7 +71,11 @@ export class ListAllComponent implements OnInit {
   };
   dataSource = new MatTableDataSource<GadgetData>();
   selection = new SelectionModel<GadgetData>(true, []);
-  constructor(private listService: ListAllApiService, private router: Router) {}
+  constructor(
+    private listService: ListAllApiService,
+    private router: Router,
+    private toastService: ToastrService
+  ) {}
   currentPage = 1;
   pageData: any;
   readonly name = model('');
@@ -134,12 +139,17 @@ export class ListAllComponent implements OnInit {
     this.listService
       .bulkDeleteGadget(this.selection.selected)
       .subscribe((response) => {
+        this.toastService.success(
+          'successfully remoed all Gadgets',
+          'Remove Success'
+        );
         this.getDataForTable(this.currentPage);
       });
   }
   deleteItem(id: string) {
     // console.log(id);
     this.listService.deleteGadget(id).subscribe((data) => {
+      this.toastService.success('removed item from list', 'Succssfully Remove');
       this.getDataForTable(this.currentPage);
     });
   }
@@ -162,7 +172,10 @@ export class ListAllComponent implements OnInit {
     this.listService
       .addQuantity(this.selection.selected)
       .subscribe((response) => {
-        console.log(response);
+        this.toastService.success(
+          'increased quantity of item by 1',
+          'Increase Quantity'
+        );
         this.getDataForTable(this.currentPage);
       });
   }
@@ -170,6 +183,10 @@ export class ListAllComponent implements OnInit {
     this.listService
       .removeQuantity(this.selection.selected)
       .subscribe((response) => {
+        this.toastService.success(
+          'removed quantity of item by 1',
+          'Removed Quantity'
+        );
         this.getDataForTable(this.currentPage);
       });
   }

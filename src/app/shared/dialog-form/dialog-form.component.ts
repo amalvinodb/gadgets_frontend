@@ -22,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { DialogService } from './dialog.service';
+import { ToastrService } from 'ngx-toastr';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -55,7 +56,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class DialogFormComponent implements OnInit {
   myForm: FormGroup;
-  constructor(private fb: FormBuilder, private dialogService: DialogService) {
+  constructor(
+    private fb: FormBuilder,
+    private dialogService: DialogService,
+    private toastService: ToastrService
+  ) {
     this.myForm = this.fb.group({
       item_name: ['', [Validators.required]],
       item_secret: ['', [Validators.required]],
@@ -109,6 +114,10 @@ export class DialogFormComponent implements OnInit {
     if (this.myForm.valid) {
       this.dialogService.addGadget(this.myForm.value).subscribe((response) => {
         console.log(response);
+        this.toastService.success(
+          'successfully added new Gadget',
+          'Successfully Added'
+        );
         this.dialogRef.close({ status: 'content added to table' });
       });
     } else {
@@ -130,6 +139,10 @@ export class DialogFormComponent implements OnInit {
     this.dialogService
       .updateGadget(this.data.id, validFields)
       .subscribe((response) => {
+        this.toastService.success(
+          'successfully updated Gadget',
+          'Successfylly Updated'
+        );
         console.log(response);
         this.dialogRef.close({ status: 'Content Updated' });
       });
