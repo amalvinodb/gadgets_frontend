@@ -1,26 +1,39 @@
-<app-header (buttonClicked)="onChildButtonClick()"></app-header>
+<div class="">
+  <app-header (buttonClicked)="onChildButtonClick()"></app-header>
 
-<mat-sidenav-container
-  class="example-container"
-  hasBackdrop="true"
-  class="w-full"
->
-  <!-- <mat-sidenav #sidenav [mode]="mode.value!" [position]="position.value!"> -->
-  <mat-sidenav #sidenav mode="over" position="start">
-    <div class="flex flex-col h-full justify-between p-8">
-      <div>Home</div>
-      <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
-      <p>
-        <label>Test input for drawer<input /></label>
-      </p> -->
-      <div>
-        <button>logout</button>
+  <mat-sidenav-container
+    class="example-container"
+    hasBackdrop="true"
+    class="h-full"
+  >
+    <!-- <mat-sidenav #sidenav [mode]="mode.value!" [position]="position.value!"> -->
+    <mat-sidenav #sidenav mode="over" position="start">
+      <div class="flex flex-col h-full justify-between p-8">
+        <div>
+          <button
+            class="text-xl font-medium flex justify-center text-[#005cbb]"
+            (click)="navigateTo('/gadget')"
+          >
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+          </button>
+        </div>
+        <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
+        <p>
+          <label>Test input for drawer<input /></label>
+        </p> -->
+        <div class="text-lg">
+          <button class="text-red-700 flex justify-center" (click)="doLogout()">
+            <mat-icon>exit_to_app</mat-icon>
+            logout
+          </button>
+        </div>
       </div>
-    </div>
-  </mat-sidenav>
+    </mat-sidenav>
 
-  <mat-sidenav-content>
-    <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p> -->
-    <router-outlet />
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    <mat-sidenav-content>
+      <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p> -->
+      <router-outlet />
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

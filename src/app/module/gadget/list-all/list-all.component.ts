@@ -57,7 +57,17 @@ export interface GadgetData {
   styleUrl: './list-all.component.css',
 })
 export class ListAllComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'id', 'name', 'price', 'actions'];
+  displayedColumns: string[] = [
+    'select',
+    'name',
+    'quantity',
+    'price',
+    'actions',
+  ];
+  retainSelected: { status: boolean; item: any } = {
+    status: false,
+    item: null,
+  };
   dataSource = new MatTableDataSource<GadgetData>();
   selection = new SelectionModel<GadgetData>(true, []);
   constructor(private listService: ListAllApiService, private router: Router) {}
@@ -147,5 +157,20 @@ export class ListAllComponent implements OnInit {
   previousPage() {
     this.currentPage = this.currentPage - 1;
     this.getDataForTable(this.currentPage);
+  }
+  addQuantity() {
+    this.listService
+      .addQuantity(this.selection.selected)
+      .subscribe((response) => {
+        console.log(response);
+        this.getDataForTable(this.currentPage);
+      });
+  }
+  removeQuantity() {
+    this.listService
+      .removeQuantity(this.selection.selected)
+      .subscribe((response) => {
+        this.getDataForTable(this.currentPage);
+      });
   }
 }
